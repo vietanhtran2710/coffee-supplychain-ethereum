@@ -13,6 +13,8 @@ contract SupplyChainStorage is SupplyChainStorageOwnable {
     /* Events */
     event AuthorizedCaller(address caller);
     event DeAuthorizedCaller(address caller);
+    event UserUpdate(address caller);
+    event UserRoleUpdate(address caller);
     
     /* Modifiers */
     
@@ -164,6 +166,9 @@ contract SupplyChainStorage is SupplyChainStorageOwnable {
         /*store data into mapping*/
         userDetails[_userAddress] = userDetail;
         userRole[_userAddress] = _role;
+
+        emit UserUpdate(msg.sender);
+        emit UserRoleUpdate(msg.sender);
         
         return true;
     }  

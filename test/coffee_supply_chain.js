@@ -18,11 +18,11 @@ contract('CoffeeSupplyChain', function(accounts) {
 
 		this.supplyChainStorage = await SupplyChainStorage.new({from: authorizedCaller});
 
-		this.coffeeSupplyChain = await CoffeeSupplyChain.new(this.supplyChainStorage.address,{from: authorizedCaller});
-		this.supplyChainUser = await SupplyChainUser.new(this.supplyChainStorage.address,{from: authorizedCaller});
+		this.coffeeSupplyChain = await CoffeeSupplyChain.new(this.supplyChainStorage.address, {from: authorizedCaller});
+		this.supplyChainUser = await SupplyChainUser.new(this.supplyChainStorage.address, {from: authorizedCaller});
 
-		await this.supplyChainStorage.authorizeCaller(this.coffeeSupplyChain.address,{from: authorizedCaller});
-		await this.supplyChainStorage.authorizeCaller(this.supplyChainUser.address,{from: authorizedCaller});
+		await this.supplyChainStorage.authorizeCaller(this.coffeeSupplyChain.address, {from: authorizedCaller});
+		await this.supplyChainStorage.authorizeCaller(this.supplyChainUser.address, {from: authorizedCaller});
 	});	
 
 	async function prepareFarmInspector(contract)
@@ -33,14 +33,14 @@ contract('CoffeeSupplyChain', function(accounts) {
 		var _isActive = true;
 		var _profileHash = "Sample Hash";
 
-		return 	await contract
-					.updateUserForAdmin(farmInspector,
-										_name,
-										_contactNo,
-										_role,
-										_isActive,
-										_profileHash,
-										{from:authorizedCaller});
+		return await contract.updateUserForAdmin(
+			farmInspector,
+			_name,
+			_contactNo,
+			_role,
+			_isActive,
+			_profileHash,
+			{from:authorizedCaller});
 	}
 
 	async function addFarmBasicDetails(contract)
@@ -51,13 +51,12 @@ contract('CoffeeSupplyChain', function(accounts) {
 		var _exporterName = "Rudra Logistics";
 		var _importerName = "Boulders Logistics";
 
-		return  await contract
-						.addBasicDetails(
-								_registrationNo,
-								_farmerName,
-							    _farmAddress,
-							    _exporterName,
-							    _importerName,{from:authorizedCaller});
+		return await contract.addBasicDetails(
+			_registrationNo,
+			_farmerName,
+			_farmAddress,
+			_exporterName,
+			_importerName,{from:authorizedCaller});
 	}
 
 	async function updateFarmInspectorData(contract,batchNo)
@@ -66,12 +65,11 @@ contract('CoffeeSupplyChain', function(accounts) {
 		var _typeOfSeed = "Coffee Arabica";
 		var _fertilizerUsed = "Organic";
 
-		return await contract
-						.updateFarmInspectorData(
-											batchNo,
-											_coffeeFamily,
-										    _typeOfSeed,
-										    _fertilizerUsed,{from:farmInspector});
+		return await contract.updateFarmInspectorData(
+			batchNo,
+			_coffeeFamily,
+			_typeOfSeed,
+			_fertilizerUsed,{from:farmInspector});
 	}
 	describe("Cultivation Activities",() => {
 
@@ -83,7 +81,7 @@ contract('CoffeeSupplyChain', function(accounts) {
 
 			/* Set Basic Details */
 
-			const { logs } = addFarmBasicDetails(this.coffeeSupplyChain);
+			const { logs } = await addFarmBasicDetails(this.coffeeSupplyChain);
 														
 			/* Check if Event Exists */
 			const event = logs.find(e => e.event === 'PerformCultivation');
@@ -97,13 +95,19 @@ contract('CoffeeSupplyChain', function(accounts) {
 
 			/* Set Basic Details */
 
-			const { logs } = addFarmBasicDetails(this.coffeeSupplyChain);
+			const { logs } = await addFarmBasicDetails(this.coffeeSupplyChain);
 
 			const event = logs.find(e => e.event === 'PerformCultivation');
 			batchNo = event.args.batchNo;
 
 			const activityData = await this.coffeeSupplyChain
 										.getBasicDetails(batchNo,{from:authorizedCaller});
+
+			var _registrationNo = "123456789";
+			var _farmerName = "Ramu Kaka";
+			var _farmAddress = "Nashik";
+			var _exporterName = "Rudra Logistics";
+			var _importerName = "Boulders Logistics";
 			
 			assert.equal(activityData[0],_registrationNo,"Registration No Check:");
 			assert.equal(activityData[1],_farmerName,"Farmer Name Check:");
