@@ -1,22 +1,22 @@
-// var HDWalletProvider = require("truffle-hdwallet-provider");
+var HDWalletProvider = require("truffle-hdwallet-provider");
 module.exports = 
 {
     networks: 
     {
-	    development: 
-		{
-	   		host: "localhost",
-	   		port: 7545,
-	   		network_id: "*", // Match any network id
-		},
-    	// rinkeby: {
-    	//     provider: function() {
-		//       var mnemonic = "steel neither fatigue ...";//put ETH wallet 12 mnemonic code	
-		//       return new HDWalletProvider(mnemonic, "https://rinkeby.infura.io/8U0AE4DUGSh8lVO3zmma");
-		//     },
-		//     network_id: '4',
-		//     from: '0xab0874cb61d.....',/*ETH wallet 12 mnemonic code wallet address*/
-		// }  
+	    // development: 
+		// {
+	   	// 	host: "localhost",
+	   	// 	port: 7545,
+	   	// 	network_id: "*", // Match any network id
+		// },
+    	rinkeby: {
+    	    provider: function() {
+		      var mnemonic = "salon size apart blame rookie index valve peanut stable found symbol liar"; //put ETH wallet 12 mnemonic code	
+		      return new HDWalletProvider(mnemonic, "https://rinkeby.infura.io/v3/301d44270a4d4ea28b100f992c064221");
+		    },
+		    network_id: '4',
+		    from: '0x3946d07C22987351aB828da580c44562fB5A80cf', /*ETH wallet 12 mnemonic code wallet address*/
+		}  
 		
     },
 	compilers: {
